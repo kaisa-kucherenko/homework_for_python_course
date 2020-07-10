@@ -54,8 +54,7 @@ def sort_by_age(student_list):
     student_list.sort(key=lambda student: student['age'])
     sorted_dict = {student['city']: [] for student in student_list}
     for student in student_list:
-        city = student['city']
-        student.pop('city')
+        city = student.pop('city')
         name_age_dict = {key: value for key, value in student.items()}
         sorted_dict[city].append(name_age_dict)
     return sorted_dict
