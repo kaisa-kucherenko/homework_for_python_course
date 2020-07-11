@@ -6,19 +6,19 @@
 # Если хранилище заполнено, нужно удалить 1 любой элемент, чтобы освободить место под новый.
 
 def do_cache(maxsize):
-    def do_cache_decorator(func):
+    def decorator_do_cache(func):
         storage = []
         def wrapper_do_cache(*args):
-            for i in storage:
-                if args in i.values():
-                    return i['result_func']
-            if len(storage) >= maxsize:
+            for data_func in storage:
+                if args == data_func['args_func']:
+                    return data_func['result_func']
+            if len(storage) == maxsize:
                 storage.pop()
             result_func = func(*args)
             storage.append({'args_func': args, 'result_func': result_func})
             return result_func
         return wrapper_do_cache
-    return do_cache_decorator
+    return decorator_do_cache
 
 
 @do_cache(maxsize=3)
