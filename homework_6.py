@@ -9,21 +9,14 @@ def do_cache(maxsize):
     def do_cache_decorator(func):
         storage = []
         def wrapper_do_cache(*args):
-            if len(storage) == 0:
-                result_func = func(*args)
-                storage.append(
-                    {'args_func': args, 'result_func': result_func})
-                return result_func
-            else:
-                for i in storage:
-                    if args in i.values():
-                        return i['result_func']
-                if len(storage) >= maxsize:
-                    storage.pop()
-                result_func = func(*args)
-                storage.append(
-                    {'args_func': args, 'result_func': result_func})
-                return result_func
+            for i in storage:
+                if args in i.values():
+                    return i['result_func']
+            if len(storage) >= maxsize:
+                storage.pop()
+            result_func = func(*args)
+            storage.append({'args_func': args, 'result_func': result_func})
+            return result_func
         return wrapper_do_cache
     return do_cache_decorator
 
