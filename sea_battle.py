@@ -1,5 +1,6 @@
 import random
 import os
+from time import sleep
 
 
 class SeaBattleGame:
@@ -63,7 +64,7 @@ x and y can be integers from 1 to 10.
                 self.shot = (x-1, y-1)
             else:
                 print('x and y must be from 1 to 10')
-        except:
+        except Exception:
             print('Enter x comma y \nx and y must be from 1 to 10')
 
     def _switch_turn(self, player_turn, player_wait):
@@ -82,13 +83,16 @@ x and y can be integers from 1 to 10.
                 print(f"Congrats, {player_turn['name']}, you hit last ship. "
                       f"And win this game!!!")
             else:
-                os.system('cls||clear')
                 print(f"Congrats, {player_turn['name']}, you hit the ship")
+                sleep(4)
+                os.system('cls||clear')
+
         else:
             player_turn['shots_field'][x][y] = '*'
-            os.system('cls||clear')
             print(f"Auch, {player_turn['name']} you were close. "
                   f"Maybe next time you hit the target")
+            sleep(4)
+            os.system('cls||clear')
         self.shot = None
 
     def run(self):
