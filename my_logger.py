@@ -22,10 +22,7 @@ class MyLogger(logging.getLoggerClass()):
 
     @logger_level.setter
     def logger_level(self, level):
-        if self.Levels.get(level.upper()):
-            self._logger_level = self.Levels[level.upper()]
-        else:
-            self._logger_level = 10
+        self._logger_level = self.Levels.get(level.upper(), 10)
 
     @property
     def fh_level(self):
@@ -33,10 +30,7 @@ class MyLogger(logging.getLoggerClass()):
 
     @fh_level.setter
     def fh_level(self, level):
-        if self.Levels.get(level.upper()):
-            self._fh_level = self.Levels[level.upper()]
-        else:
-            self._fh_level = 10
+        self._fh_level = self.Levels.get(level.upper(), 10)
 
     @property
     def sh_level(self):
@@ -44,10 +38,7 @@ class MyLogger(logging.getLoggerClass()):
 
     @sh_level.setter
     def sh_level(self, level):
-        if self.Levels.get(level.upper()):
-            self._sh_level = self.Levels[level.upper()]
-        else:
-            self._sh_level = 0
+        self._sh_level = self.Levels.get(level.upper(), 10)
 
     def _file_handler(self):
         fh = logging.FileHandler(f'{self.name}.log')
