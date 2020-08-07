@@ -1,8 +1,5 @@
 from my_logger import MyLogger
 
-logger = MyLogger(name='game', logger_level='debug',
-                  fh_level='warning', sh_level='info')
-
 
 class Room:
     """
@@ -37,6 +34,7 @@ class Game:
     }
 
     def __init__(self, map):
+        self.log = MyLogger(name='Game')
         self.player_x = 0
         self.player_y = 0
         self.map = map
@@ -49,8 +47,8 @@ class Game:
             self.current_room = new_room
             self.player_x += x
             self.player_y += y
-            logger.info(f'New player_x = {self.player_x},'
-                        f'player_y = {self.player_y}')
+            self.log.info(f'New player_x = {self.player_x},'
+                          f'player_y = {self.player_y}')
             self._look_at(self.current_room)
         else:
             print('Error: missing room')
@@ -61,9 +59,9 @@ class Game:
         coords = (x, y)
         room = self.map.get(coords)
         if room:
-            logger.info(f'Get room {room.name}')
+            self.log.info(f'Get room {room.name}')
         else:
-            logger.warning(f'No room with coords {coords}')
+            self.log.warning(f'No room with coords {coords}')
         return room
 
     @staticmethod
@@ -74,19 +72,19 @@ class Game:
         in_str = in_str.lower()
         if in_str.startswith('go '):
             direction = in_str[3:]
-            logger.info(f'Direction - {direction}')
+            self.log.info(f'Direction - {direction}')
             if self.current_room._check_exit(direction):
                 new_coords = self.Directions[direction]
                 self._move(*new_coords)
             else:
-                logger.warning(f'No exit "{direction}" in {self.current_room}')
+                self.log.warning(f'No exit "{direction}" in {self.current_room}')
         else:
-            logger.warning(f'User enter command "{in_str}" != startwith "go "')
+            self.log.warning(f'User enter "{in_str}" != startwith "go "')
 
     def run(self):
         while True:
             action = input('>>> ')
-            logger.info(f'User enter "{action}". ')
+            self.log.info(f'User enter "{action}". ')
             self._parse(action)
 
 
@@ -95,6 +93,5 @@ if __name__ == '__main__':
     room2 = Room(0, -1, "Second room", "", ["south"])
     map = {(room1.x, room1.y): room1,
            (room2.x, room2.y): room2}
-    logger.info('Start program')
     game = Game(map)
     game.run()
